@@ -1,0 +1,75 @@
+{
+  "entities": {
+    "Item": {
+      "title": "Inventory Item",
+      "description": "A piece of equipment in the warehouse",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string", "enum": ["Scenic", "Video", "Trussing", "Stage Decks", "Lighting", "Sound", "Cables", "Other"] },
+        "barcode": { "type": "string" },
+        "quantity": { "type": "number" },
+        "availableQuantity": { "type": "number" },
+        "location": { "type": "string" },
+        "status": { "type": "string", "enum": ["Available", "Rented", "Maintenance", "Retired"] },
+        "lastMaintenance": { "type": "string", "format": "date-time" },
+        "assetTags": { "type": "array", "items": { "type": "string" } },
+        "imageUrl": { "type": "string" }
+      },
+      "required": ["name", "category", "barcode", "quantity"]
+    },
+    "Show": {
+      "title": "Show/Event",
+      "description": "An event that requires equipment",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "client": { "type": "string" },
+        "startDate": { "type": "string", "format": "date-time" },
+        "endDate": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["Draft", "Confirmed", "In Progress", "Completed", "Cancelled"] },
+        "pullSheet": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "itemId": { "type": "string" },
+              "quantity": { "type": "number" },
+              "scannedOut": { "type": "number" },
+              "scannedIn": { "type": "number" }
+            }
+          }
+        }
+      },
+      "required": ["name", "startDate", "endDate"]
+    },
+    "RoadCase": {
+      "title": "Road Case / Container",
+      "description": "An exterior container that holds multiple barcode-scannable assets",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "barcode": { "type": "string" },
+        "childBarcodes": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["name", "barcode"]
+    }
+  },
+  "firestore": {
+    "inventory": {
+      "schema": { "$ref": "Item" },
+      "description": "The main inventory of equipment"
+    },
+    "shows": {
+      "schema": { "$ref": "Show" },
+      "description": "Show records and their associated pull sheets"
+    },
+    "roadCases": {
+      "schema": { "$ref": "RoadCase" },
+      "description": "Containers housing multiple individual items mapped together"
+    }
+  }
+}

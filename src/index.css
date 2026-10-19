@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  aside, header, nav, button:not(.print-only) {
+    display: none !important;
+  }
+  main {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+  .bg-zinc-900\/50, .bg-zinc-950, .bg-black {
+    background: white !important;
+    border: 1px solid #eee !important;
+  }
+  .text-white {
+    color: black !important;
+  }
+  .text-zinc-500, .text-zinc-400 {
+    color: #666 !important;
+  }
+}
